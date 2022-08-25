@@ -1,0 +1,38 @@
+name: Build then push image on master.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build image and push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            ouestcode/ploi-cli:${{ GITHUB_REF_NAME }}
+            ouestcode/ploi-cli:latest
+          build-args: |
+            PHP_VERSION=8.1
+
+      - name: Show image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
