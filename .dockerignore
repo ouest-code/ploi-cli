@@ -1,0 +1,11 @@
+.env*
+.editorconfig
+.gitattributes
+.gitignore
+.idea
+Dockerfile
+Makefile
+box.json
+phpunit.xml.dist
+tests
+vendor
