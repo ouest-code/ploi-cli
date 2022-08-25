@@ -29,7 +29,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ouestcode/ploi-cli:${GITHUB_REF_NAME}
+            ouestcode/ploi-cli:${{ github.ref_name }}
             ouestcode/ploi-cli:latest
           build-args: |
             PHP_VERSION=8.1
