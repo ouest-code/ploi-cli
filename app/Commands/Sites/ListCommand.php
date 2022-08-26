@@ -13,7 +13,7 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sites:list {id : The id of the server}';
+    protected $signature = 'sites:list {server : The id of the server}';
 
     /**
      * The description of the command.
@@ -30,11 +30,11 @@ class ListCommand extends Command
     public function handle()
     {
         try {
-            $id = $this->argument('id');
+            $server = $this->argument('server');
 
             $response = Http::withToken(config('ploi.token'))
                 ->baseUrl(config('ploi.base_url'))
-                ->get(sprintf('/api/servers/%s/sites', $id));
+                ->get(sprintf('/api/servers/%s/sites', $server));
 
             $sites = collect($response->json('data'));
 

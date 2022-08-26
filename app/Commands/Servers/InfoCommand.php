@@ -13,7 +13,7 @@ class InfoCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'servers:info {id}';
+    protected $signature = 'servers:info {server : The id of the server}';
 
     /**
      * The description of the command.
@@ -30,11 +30,11 @@ class InfoCommand extends Command
     public function handle()
     {
         try {
-            $id = $this->argument('id');
+            $server = $this->argument('server');
 
             $response = Http::withToken(config('ploi.token'))
                 ->baseUrl(config('ploi.base_url'))
-                ->get(sprintf('/api/servers/%s', $id));
+                ->get(sprintf('/api/servers/%s', $server));
 
             $properties = $response->json('data');
 
@@ -42,7 +42,7 @@ class InfoCommand extends Command
 
             $this->newLine();
 
-            $this->line(sprintf('  <options=bold;bg=cyan> %s </> %s', $id, $properties['name']));
+            $this->line(sprintf('  <options=bold;bg=cyan> %s </> %s', $server, $properties['name']));
 
             $this->line(sprintf('  <options=bold>IP:</>            %s', $properties['ip_address']));
             $this->line(sprintf('  <options=bold>Status:</>        <fg=%s>%s</>', $statusColor, $properties['status']));
